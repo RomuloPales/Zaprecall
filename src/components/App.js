@@ -1,10 +1,11 @@
 import styled from "styled-components"
 import GlobalStye from "../assets/css/Globalstyles"
+import Deck from "./Deck"
 export default  function App() {
   return (
    <ScreenContainer>
 	<GlobalStye/>
-	blablablabla
+	<Deck/>
    </ScreenContainer>
   )
   
