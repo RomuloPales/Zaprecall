@@ -4,7 +4,7 @@ export default  function App() {
   return (
    <ScreenContainer>
 	<GlobalStye/>
-	asaushauhs
+	blabla bla bla
    </ScreenContainer>
   )
   
