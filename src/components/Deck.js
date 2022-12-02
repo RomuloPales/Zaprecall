@@ -11,7 +11,10 @@ export default function Deck() {
     <Flashcards />
     <Flashcards />
     <Flashcards />
-    <Footer>0/4 Concluidos</Footer>
+    <Flashcards />
+    <Flashcards />
+    
+    <Footer>2/4 Concluidos</Footer>
     </>
   )
 }
