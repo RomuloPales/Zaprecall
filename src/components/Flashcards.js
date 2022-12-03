@@ -1,18 +1,53 @@
+import { useState } from "react";
 import styled from "styled-components";
 import seta from "../assets/img/seta_play.png";
 import circle from "../assets/img/seta_virar.png";
-export default function Flashcards({ number, cardaberto, estaAberto,pergunta }) {
+import colors from "../assets/css/colors"
+
+export default function Flashcards({
+  number,
+  cardaberto,
+  estaAberto,
+  pergunta,
+  respostas,
+}) {
+  const [respondido, SetResponddo] = useState(false);
+  const [resposta, SetResposta] = useState ([])
+  const { RED, YELLOW, GREEN, GRAY } = colors
+    function clickResposta(status){
+
+      if(cardaberto !== null){
+        const novaResposta = [...resposta, {index : cardaberto, status: status }]
+        SetResposta(novaResposta)
+        cardaberto(null)
+      }
+
+    }
+     
   return (
     <>
       {!estaAberto ? (
-        <AnswerClosed >
+        <AnswerClosed>
           <AnswerOpenText>Pergunta {number}</AnswerOpenText>
-          <img src={seta} onClick ={cardaberto}  alt="setaimg" />
+          <img src={seta} onClick={cardaberto} alt="setaimg" />
         </AnswerClosed>
       ) : (
         <AnswerOpen>
-          {pergunta}
-          <img src={circle}  alt="circleimg" />
+          {respondido ? (
+            <p>
+              {respostas}
+              <BotaoFooter>
+                <BotãoEscolha color={RED} onClick={() => clickResposta ("erro")}> não lembrei</BotãoEscolha>
+                <BotãoEscolha color={YELLOW} onClick={() => clickResposta ("quase")}>Quase não lembrei</BotãoEscolha>
+                <BotãoEscolha color={GREEN} onClick={() => clickResposta ("boa") }>Zap!</BotãoEscolha>
+              </BotaoFooter>
+            </p>
+          ) : (
+            <>
+              <p> {pergunta}</p>
+              <img src={circle}onClick={() => SetResponddo(true)}alt="circleimg"/>
+            </>
+          )}
         </AnswerOpen>
       )}
     </>
@@ -63,4 +98,30 @@ const AnswerOpen = styled.div`
     bottom: 10px;
     right: 10px;
   }
+`;
+
+const BotaoFooter = styled.div`
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  margin: 20px;
+`;
+
+const BotãoEscolha = styled.div`
+  width: 90px;
+  font-family: "Recursive";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+  background: ${props => props.color};
+  border-radius: 5px;
+  border: 1px solid ${props => props.color};
+  padding: 5px;
+  margin-left: 5px;
 `;
