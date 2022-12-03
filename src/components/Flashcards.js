@@ -10,19 +10,22 @@ export default function Flashcards({
   estaAberto,
   pergunta,
   respostas,
+  perguntaAberta,
+  status,
 }) {
   const [respondido, SetResponddo] = useState(false);
   const [resposta, SetResposta] = useState ([])
-  const { RED, YELLOW, GREEN, GRAY } = colors
-    function clickResposta(status){
+  const { RED, YELLOW, GREEN} = colors
 
+    function clickResposta(status){
       if(cardaberto !== null){
         const novaResposta = [...resposta, {index : cardaberto, status: status }]
         SetResposta(novaResposta)
         cardaberto(null)
       }
-
     }
+
+    
      
   return (
     <>

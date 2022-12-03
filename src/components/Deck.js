@@ -5,8 +5,26 @@ import { useState } from "react";
 
 export default function Deck({cards}) {
     const [aberto, SetAberto] = useState ( null)
-    
+    const [resposta, SetResposta] = useState ([])
 
+    function clickResposta(status){
+
+      if(aberto !== null){
+        const novaResposta = [...resposta, {index : aberto, status: status }]
+        SetResposta(novaResposta)
+        aberto(null)
+      }
+
+    }
+    function getCardStatus(i) {
+      const card = resposta.find((a) => a.index === i)
+      if (card !== null && card !== undefined) {
+          return card.status
+      } else {
+          return "no status"
+      }
+  }
+  
   return (
     <>
       <Header />
@@ -19,11 +37,13 @@ export default function Deck({cards}) {
           estaAberto = {i === aberto}
           pergunta = {c.question}
           respostas = {c.answer}
+          perguntaAberta = {() => clickResposta}
+          status = {getCardStatus(i)}
+
           />
         ))
       }
-      
-      <Footer>1/{cards.length} Concluidos</Footer>
+      <Footer>2/{cards.length} Concluidos</Footer>
     </>
   );
 }
