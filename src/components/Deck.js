@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Header from "./Header";
 import { useState } from "react";
 
-export default function Deck({cards}) {
+export default function Deck({cards})  {
     const [aberto, SetAberto] = useState ( null)
     const [resposta, SetResposta] = useState ([])
 
@@ -16,20 +16,13 @@ export default function Deck({cards}) {
       }
 
     }
-    function getCardStatus(i) {
-      const card = resposta.find((a) => a.index === i)
-      if (card !== null && card !== undefined) {
-          return card.status
-      } else {
-          return "no status"
-      }
-  }
-  
+    
   return (
     <>
       <Header />
       {
         cards.map((c , i) => (
+          <>
           <Flashcards 
           key = {i} 
           number = {i + 1}
@@ -38,12 +31,13 @@ export default function Deck({cards}) {
           pergunta = {c.question}
           respostas = {c.answer}
           perguntaAberta = {() => clickResposta}
-          status = {getCardStatus(i)}
-
+          indice = {i}
           />
+          
+          </>
         ))
       }
-      <Footer>2/{cards.length} Concluidos</Footer>
+      <Footer data-test="footer" >2/{cards.length} Concluidos</Footer>
     </>
   );
 }

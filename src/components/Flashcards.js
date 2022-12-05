@@ -10,45 +10,59 @@ export default function Flashcards({
   estaAberto,
   pergunta,
   respostas,
-  perguntaAberta,
-  status,
+  indice
 }) {
   const [respondido, SetResponddo] = useState(false);
   const [resposta, SetResposta] = useState ([])
-  const { RED, YELLOW, GREEN} = colors
+  const [estado, SetEstado] = useState (null)
+  const { RED, YELLOW, GREEN, GRAY} = colors
+  
 
     function clickResposta(status){
-      if(cardaberto !== null){
+      if(cardaberto !== null && estado === null){
         const novaResposta = [...resposta, {index : cardaberto, status: status }]
         SetResposta(novaResposta)
         cardaberto(null)
-      }
+        SetEstado (novaResposta)
+          }
     }
-
     
-     
+    function escolhaCor(){
+      switch(resposta){
+        case "erro":
+          return RED
+          case "quase":
+          return YELLOW
+          case "boa":
+          return GREEN
+        default:
+          return GRAY
+      }
+     }
+
   return (
     <>
       {!estaAberto ? (
         <AnswerClosed>
-          <AnswerOpenText>Pergunta {number}</AnswerOpenText>
-          <img src={seta} onClick={cardaberto} alt="setaimg" />
+          <AnswerOpenText color={escolhaCor()} data-test="flashcard" >Pergunta {number}</AnswerOpenText>
+          <img src={seta} onClick={cardaberto} alt="setaimg" data-test="flashcard-text"  />
         </AnswerClosed>
       ) : (
         <AnswerOpen>
           {respondido ? (
-            <p>
-              {respostas}
+            <>
+             <p data-test="flashcard-text">{respostas}</p> 
               <BotaoFooter>
-                <BotãoEscolha color={RED} onClick={() => clickResposta ("erro")}> não lembrei</BotãoEscolha>
-                <BotãoEscolha color={YELLOW} onClick={() => clickResposta ("quase")}>Quase não lembrei</BotãoEscolha>
-                <BotãoEscolha color={GREEN} onClick={() => clickResposta ("boa") }>Zap!</BotãoEscolha>
+                <BotãoEscolha color={RED} onClick={() => clickResposta ("erro")} data-test="no-btn"> não lembrei</BotãoEscolha>
+                <BotãoEscolha color={YELLOW} onClick={() => clickResposta ("quase")} data-test="partial-btn">Quase não lembrei</BotãoEscolha>
+                <BotãoEscolha color={GREEN} onClick={() => clickResposta ("boa") } data-test="zap-btn">Zap!</BotãoEscolha>
               </BotaoFooter>
-            </p>
+            </>
           ) : (
             <>
-              <p> {pergunta}</p>
-              <img src={circle}onClick={() => SetResponddo(true)}alt="circleimg"/>
+            <p data-test="flashcard-text">{pergunta}</p>
+              
+              <img src={circle}onClick={() => SetResponddo(true)}alt="circleimg" data-test="turn-btn"/>
             </>
           )}
         </AnswerOpen>
@@ -76,7 +90,7 @@ const AnswerOpenText = styled.p`
   font-weight: 700;
   font-size: 16px;
   line-height: 19px;
-  color: #333333;
+  color: ${props => props.color};
 `;
 const AnswerOpen = styled.div`
   width: 300px;
